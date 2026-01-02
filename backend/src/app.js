@@ -35,3 +35,5 @@ app.use("/api/users", userRoutes);
 const jobRoutes = require("./routes/jobRoutes");
 
 app.use("/api/jobs", jobRoutes);
+
+
