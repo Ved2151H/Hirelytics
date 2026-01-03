@@ -12,9 +12,13 @@ const applicationSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    resumeUrl: {
-      type: String,
-      required: true,
+    resume: {
+      fileName: String,
+      filePath: String,
+       uploadedAt: {
+         type: Date,
+          default: Date.now,
+  },
     },
     status: {
       type: String,

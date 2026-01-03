@@ -38,3 +38,5 @@ app.use("/api/jobs", jobRoutes);
 
 const applicationRoutes = require("./routes/applicationRoutes");
 app.use("/api/applications", applicationRoutes);
+
+app.use("/uploads", express.static("uploads"));

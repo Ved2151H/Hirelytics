@@ -1,12 +1,19 @@
 const Application = require("../models/Application");
 
-// Candidate applies to a job
+// Candidate applies to a job (with resume upload)
 const applyToJob = async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Resume file is required" });
+    }
+
     const application = await Application.create({
       job: req.params.jobId,
       candidate: req.user._id,
-      resumeUrl: req.body.resumeUrl,
+      resume: {
+        fileName: req.file.originalname,
+        filePath: req.file.path,
+      },
     });
 
     res.status(201).json(application);
@@ -20,13 +27,18 @@ const applyToJob = async (req, res) => {
   }
 };
 
-// Recruiter views applications for their job
+// Recruiter views applications for a job
 const getApplicationsForJob = async (req, res) => {
-  const applications = await Application.find({ job: req.params.jobId })
+  const applications = await Application.find({
+    job: req.params.jobId,
+  })
     .populate("candidate", "name email")
     .populate("job", "title");
 
   res.status(200).json(applications);
 };
 
-module.exports = { applyToJob, getApplicationsForJob };
+module.exports = {
+  applyToJob,
+  getApplicationsForJob,
+};
