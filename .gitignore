@@ -9,3 +9,23 @@ __pycache__/
 venv/
 
 JWT_SECRET=hirelytics_jwt_secret_key
+
+# Python virtual environment
+venv/
+ai-services/**/venv/
+__pycache__/
+*.pyc
+# dependencies
+node_modules/
+
+# env
+.env
+
+# uploads / user files
+backend/uploads/
+backend/resume.pdf
+
+# python
+ai-services/**/venv/
+__pycache__/
+*.pyc

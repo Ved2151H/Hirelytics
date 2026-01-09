@@ -15,16 +15,23 @@ const applicationSchema = new mongoose.Schema(
     resume: {
       fileName: String,
       filePath: String,
-       uploadedAt: {
-         type: Date,
-          default: Date.now,
-  },
+      uploadedAt: {
+        type: Date,
+        default: Date.now,
+      },
     },
+    parsedResume: {
+      skills: [String],
+      experienceYears: String,
+      textLength: Number,
+    },
+
     status: {
       type: String,
       enum: ["applied", "shortlisted", "rejected"],
       default: "applied",
     },
+
   },
   { timestamps: true }
 );

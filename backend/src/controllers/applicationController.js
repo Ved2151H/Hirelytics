@@ -1,4 +1,5 @@
 const Application = require("../models/Application");
+const { parseResumeWithAI } = require("../utils/aiService");
 
 // Candidate applies to a job (with resume upload)
 const applyToJob = async (req, res) => {
@@ -7,12 +8,20 @@ const applyToJob = async (req, res) => {
       return res.status(400).json({ message: "Resume file is required" });
     }
 
+    // Call AI service
+    const aiResult = await parseResumeWithAI(req.file.path);
+
     const application = await Application.create({
       job: req.params.jobId,
       candidate: req.user._id,
       resume: {
         fileName: req.file.originalname,
         filePath: req.file.path,
+      },
+      parsedResume: {
+        skills: aiResult.skills,
+        experienceYears: aiResult.experience_years,
+        textLength: aiResult.text_length,
       },
     });
 
@@ -23,9 +32,10 @@ const applyToJob = async (req, res) => {
         .status(400)
         .json({ message: "You have already applied to this job" });
     }
-    res.status(400).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
+
 
 // Recruiter views applications for a job
 const getApplicationsForJob = async (req, res) => {
