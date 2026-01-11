@@ -1,25 +1,15 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
-function CandidateDashboard() {
-  return <h2>Candidate Dashboard</h2>;
-}
-
-function RecruiterDashboard() {
-  return <h2>Recruiter Dashboard</h2>;
-}
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
-        <Route path="/recruiter/dashboard" element={<RecruiterDashboard />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
   );
 }
 
