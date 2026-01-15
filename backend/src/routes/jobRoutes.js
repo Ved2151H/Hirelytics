@@ -10,7 +10,8 @@ const {
 const router = express.Router();
 
 // Recruiter-only: create job
-router.post("/create", protect, authorizeRoles("recruiter"), createJob);
+router.post("/", protect, authorizeRoles("recruiter"), createJob);
+
 
 // Authenticated users: view jobs
 router.get("/", protect, getAllJobs);

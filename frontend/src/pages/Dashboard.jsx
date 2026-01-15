@@ -6,10 +6,20 @@ function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) navigate("/");
+    const role = localStorage.getItem("role");
+
+    if (!token) {
+      navigate("/");
+    } else {
+      if (role === "recruiter") {
+        navigate("/recruiter");
+      } else if (role === "candidate") {
+        navigate("/candidate");
+      }
+    }
   }, []);
 
-  return <h2>Dashboard (Protected)</h2>;
+  return <h2>Redirecting...</h2>;
 }
 
 export default Dashboard;
