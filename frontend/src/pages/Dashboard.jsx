@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "./CSS/Dashboard.css";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -17,9 +18,17 @@ function Dashboard() {
         navigate("/candidate");
       }
     }
-  }, []);
+  }, [navigate]);
 
-  return <h2>Redirecting...</h2>;
+  return (
+    <div className="dashboard-redirect-container">
+      <div className="dashboard-redirect-card">
+        <div className="loader"></div>
+        <h2>Redirecting</h2>
+        <p>Please wait while we take you to your dashboard</p>
+      </div>
+    </div>
+  );
 }
 
 export default Dashboard;

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../services/api";
 import { useNavigate } from "react-router-dom";
+import "./CSS/Register.css";
 
 function Register() {
   const [form, setForm] = useState({
@@ -27,19 +28,61 @@ function Register() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Register</h2>
-      <input name="name" placeholder="Name" onChange={handleChange} />
-      <input name="email" placeholder="Email" onChange={handleChange} />
-      <input name="password" type="password" placeholder="Password" onChange={handleChange} />
+    <div className="register-container">
+      <div className="register-card">
+        <h2>Create Account</h2>
+        <p className="subtitle">Register to start using the platform</p>
 
-      <select name="role" onChange={handleChange}>
-        <option value="candidate">Candidate</option>
-        <option value="recruiter">Recruiter</option>
-      </select>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Full Name</label>
+            <input
+              name="name"
+              value={form.name}
+              placeholder="Enter your name"
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      <button type="submit">Register</button>
-    </form>
+          <div className="form-group">
+            <label>Email Address</label>
+            <input
+              name="email"
+              type="email"
+              value={form.email}
+              placeholder="Enter your email"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              name="password"
+              type="password"
+              value={form.password}
+              placeholder="Create a password"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Register As</label>
+            <select name="role" value={form.role} onChange={handleChange}>
+              <option value="candidate">Candidate</option>
+              <option value="recruiter">Recruiter</option>
+            </select>
+          </div>
+
+          <button type="submit" className="register-btn">
+            Register
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../services/api";
+import "./CSS/CreateJob.css";
 
 function CreateJob() {
   const [job, setJob] = useState({
@@ -17,61 +18,150 @@ function CreateJob() {
     setJob({ ...job, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const payload = {
-      title: job.title,
-      description: job.description,
-      skills: job.skills.split(",").map(s => s.trim()),
-      experienceLevel: job.experienceLevel,
-      location: job.location,
-      jobType: job.jobType,
-      salaryRange: {
-        min: Number(job.salaryMin),
-        max: Number(job.salaryMax),
-      }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        title: job.title,
+        description: job.description,
+        skills: job.skills.split(",").map((s) => s.trim()),
+        experienceLevel: job.experienceLevel,
+        location: job.location,
+        jobType: job.jobType,
+        salaryRange: {
+          min: Number(job.salaryMin),
+          max: Number(job.salaryMax)
+        }
+      };
 
-    console.log("Sending payload:", payload);
+      await API.post("/jobs", payload);
+      alert("Job created successfully");
 
-    const res = await API.post("/jobs", payload);
-    console.log("Backend response:", res.data);
-
-    alert("Job created successfully");
-  } catch (err) {
-    console.log("FULL ERROR:", err);
-    console.log("STATUS:", err.response?.status);
-    console.log("DATA:", err.response?.data);
-    alert("Job creation failed");
-  }
-};
-
-
-//       await API.post("/jobs", payload);
-//       alert("Job created successfully");
-//     } catch (err) {
-//       console.error(err.response?.data || err.message);
-//       alert("Job creation failed");
-//     }
-//   };
+      setJob({
+        title: "",
+        description: "",
+        skills: "",
+        experienceLevel: "",
+        location: "",
+        jobType: "",
+        salaryMin: "",
+        salaryMax: ""
+      });
+    } catch (err) {
+      console.log(err.response?.data || err.message);
+      alert("Job creation failed");
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Create Job</h2>
+    <div className="createjob-container">
+      <div className="createjob-card">
+        <h2>Create Job Posting</h2>
+        <p className="subtitle">Fill in the details to publish a new job</p>
 
-      <input name="title" placeholder="Job Title" onChange={handleChange} />
-      <textarea name="description" placeholder="Description" onChange={handleChange}></textarea>
-      <input name="skills" placeholder="Skills (comma separated)" onChange={handleChange} />
-      <input name="experienceLevel" placeholder="Experience Level (junior/mid/senior)" onChange={handleChange} />
-      <input name="location" placeholder="Location" onChange={handleChange} />
-      <input name="jobType" placeholder="Job Type (full-time/part-time)" onChange={handleChange} />
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Job Title</label>
+            <input
+              name="title"
+              value={job.title}
+              placeholder="Enter job title"
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      <input name="salaryMin" placeholder="Salary Min" onChange={handleChange} />
-      <input name="salaryMax" placeholder="Salary Max" onChange={handleChange} />
+          <div className="form-group">
+            <label>Description</label>
+            <textarea
+              name="description"
+              value={job.description}
+              placeholder="Enter job description"
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      <button type="submit">Create Job</button>
-    </form>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Skills</label>
+              <input
+                name="skills"
+                value={job.skills}
+                placeholder="React, Node, MongoDB"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Experience Level</label>
+              <input
+                name="experienceLevel"
+                value={job.experienceLevel}
+                placeholder="Junior / Mid / Senior"
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Location</label>
+              <input
+                name="location"
+                value={job.location}
+                placeholder="City or Remote"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Job Type</label>
+              <input
+                name="jobType"
+                value={job.jobType}
+                placeholder="Full-time / Part-time"
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>Salary Minimum</label>
+              <input
+                type="number"
+                name="salaryMin"
+                value={job.salaryMin}
+                placeholder="Minimum salary"
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Salary Maximum</label>
+              <input
+                type="number"
+                name="salaryMax"
+                value={job.salaryMax}
+                placeholder="Maximum salary"
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" className="createjob-btn">
+            Create Job
+          </button>
+        </form>
+      </div>
+    </div>
   );
 }
 
